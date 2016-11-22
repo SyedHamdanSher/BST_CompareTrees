@@ -1,8 +1,9 @@
 /* compile and run :  gcc -o gg comparetree.c -lm
 						./gg
 */
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 struct treeNode {
 	int value;
@@ -12,7 +13,7 @@ struct treeNode {
 int count1 = 0,count2 = 0,countn1=0,countn2=0;//global variable
 typedef struct treeNode* Node;
 
-//Inserting as element 
+//Inserting a element 
 Node insert_node(int item, Node root)
 {
 	Node cur,temp,prev;
@@ -160,6 +161,8 @@ void main()
 {
 	int c1,c2,flag=0;
 	Node root1=NULL,root2=NULL,copyN=NULL;
+	clock_t start_t, end_t;
+	double total_t;
 	printf("\n creation of two trees and comparing whether they are same or not\n");
 	printf("\n create tree 1");
 	root1=creatTree(NULL);
@@ -171,8 +174,12 @@ void main()
 	count_leaves2(root2);
 	count_nodes1(root1);
 	count_nodes2(root2);
+	start_t = clock();
 	flag=compareTrees(root1,root2);
+	end_t = clock();
+	total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
 	results(c1,c2,flag);
+	printf("Total time taken by CPU: %f\n", total_t);
 	printf("\nCreating an exact copy of first tree and then comparing the copied tree and the original tree\n");
 	copyN=copy(root1);
 	flag=0;count1 = 0;count2 = 0;countn1=0;countn2=0;
@@ -182,6 +189,10 @@ void main()
 	count_leaves2(copyN);
 	count_nodes1(root1);
 	count_nodes2(copyN);
+	start_t = clock();
 	flag=compareTrees(root1,copyN);
+	end_t = clock();
+	total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
 	results(c1,c2,flag);
+	printf("Total time taken by CPU: %f\n", total_t);
 }
